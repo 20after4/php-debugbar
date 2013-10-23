@@ -415,20 +415,32 @@ if (typeof(PhpDebugBar) == 'undefined') {
                 if (typeof(stmt.stmt_id) != 'undefined' && stmt.stmt_id) {
                     $('<span title="Prepared statement ID" />').addClass(csscls('stmt-id')).text(stmt.stmt_id).appendTo(li);
                 }
+                var tables = $('<div style="display:none"></div>').appendTo(li);
                 if (stmt.params && !$.isEmptyObject(stmt.params)) {
-                    var table = $('<table><tr><th colspan="2">Params</th></tr></table>').addClass(csscls('params')).appendTo(li);
+                    var table = $('<table><tr><th colspan="2">Params</th></tr></table>').addClass(csscls('params')).appendTo(tables);
                     for (var key in stmt.params) {
                         table.append('<tr><td class="' + csscls('name') + '">' + key + '</td><td class="' + csscls('value') + 
                                      '">' + stmt.params[key] + '</td></tr>');
                     }
-                    li.css('cursor', 'pointer').click(function() {
-                        if (table.is(':visible')) {
-                            table.hide();
-                        } else {
-                            table.show();
-                        }
-                    });
+
+
                 }
+                $.each(stmt.backtrace, function(i, trace){
+                    var block = $('<div class="panel"></div>');
+                    var tb = $('<table class="table"></table>').appendTo(block);
+                    $.each(['class','function','args','file','line','type'], function(i,k){
+                        tb.append('<tr><th>'+k+'</th><td style="text-align:left">'+trace[k]+'</td></tr>');
+                    });
+                    block.appendTo(tables);
+                });
+                li.css('cursor', 'pointer').click(function() {
+                    if (tables.is(':visible')) {
+                        tables.hide();
+                    } else {
+                        tables.show();
+                    }
+                });
+                //$('<div>Backtrace: ' + stmt.backtrace+'</div>').appendTo(li);
             }});
             this.$list.$el.appendTo(this.$el);
 

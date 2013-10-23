@@ -73,7 +73,7 @@ class TraceablePDOStatement extends PDOStatement
         }
 
         $tracedStmt = new TracedStatement($this->queryString, $boundParameters,
-            $preparedId, $this->rowCount(), $start, $end, $memoryUsage, $ex);
+            $preparedId, $this->rowCount(), $start, $end, $memoryUsage, $ex, debug_backtrace(true, 10));
         $this->pdo->addExecutedStatement($tracedStmt);
 
         if ($this->pdo->getAttribute(PDO::ATTR_ERRMODE) === PDO::ERRMODE_EXCEPTION && $ex !== null) {

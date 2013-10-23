@@ -19,6 +19,8 @@ class TracedStatement
 
     protected $exception;
 
+    protected $backtrace;
+
     /**
      * Traces a call and returns a TracedStatement
      * 
@@ -47,7 +49,7 @@ class TracedStatement
      * @param integer $memoryUsage
      * @param \Exception $e
      */
-    public function __construct($sql, array $params = array(), $preparedId = null, $rowCount = 0, $startTime = 0, $endTime = 0, $memoryUsage = 0, \Exception $e = null)
+    public function __construct($sql, array $params = array(), $preparedId = null, $rowCount = 0, $startTime = 0, $endTime = 0, $memoryUsage = 0, \Exception $e = null, $backtrace = null)
     {
         $this->sql = $sql;
         $this->rowCount = $rowCount;
@@ -58,6 +60,7 @@ class TracedStatement
         $this->duration = $endTime - $startTime;
         $this->memoryUsage = $memoryUsage;
         $this->exception = $e;
+        $this->backtrace = array_slice($backtrace, 4);
     }
 
     /**
@@ -198,5 +201,15 @@ class TracedStatement
     public function getErrorMessage()
     {
         return $this->exception !== null ? $this->exception->getMessage() : '';
+    }
+
+    /**
+     * Returns the stack trace that was collected at the time of the statement's execution.
+     * 
+     * @return array Statement execution context stack trace (obtained by calling debug_backtrace) 
+     */
+    public function getBacktrace()
+    {
+        return $this->backtrace;
     }
 }

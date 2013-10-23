@@ -103,7 +103,8 @@ class PDOCollector extends DataCollector implements Renderable
                 'memory_str' => $this->formatBytes($stmt->getMemoryUsage()),
                 'is_success' => $stmt->isSuccess(),
                 'error_code' => $stmt->getErrorCode(),
-                'error_message' => $stmt->getErrorMessage()
+                'error_message' => $stmt->getErrorMessage(),
+                'backtrace' => $stmt->getBacktrace()
             );
             if ($timeCollector !== null) {
                 $timeCollector->addMeasure($stmt->getSql(), $stmt->getStartTime(), $stmt->getEndTime());

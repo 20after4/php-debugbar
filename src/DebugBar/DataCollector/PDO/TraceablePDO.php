@@ -49,7 +49,7 @@ class TraceablePDO extends PDO
      */
     public function errorInfo()
     {
-        return $this->errorInfo();
+        return $this->pdo->errorInfo();
     }
 
     /**
@@ -57,7 +57,7 @@ class TraceablePDO extends PDO
      */
     public function exec($sql)
     {
-        return $this->profileCall('exec', $sql, func_get_args());
+        return $this->profileCall('exec', $sql, func_get_args(), debug_backtrace(true, 10));
     }
 
     /**
@@ -132,7 +132,7 @@ class TraceablePDO extends PDO
      * @param array $args
      * @return mixed The result of the call
      */
-    protected function profileCall($method, $sql, array $args)
+    protected function profileCall($method, $sql, array $args, $backtrace)
     {
         $start = microtime(true);
         $ex = null;
@@ -150,7 +150,7 @@ class TraceablePDO extends PDO
             $ex = new PDOException($error[2], $error[0]);
         }
 
-        $tracedStmt = new TracedStatement($sql, array(), null, 0, $start, $end, $memoryUsage, $ex);
+        $tracedStmt = new TracedStatement($sql, array(), null, 0, $start, $end, $memoryUsage, $ex, $backtrace);
         $this->addExecutedStatement($tracedStmt);
 
         if ($this->pdo->getAttribute(PDO::ATTR_ERRMODE) === PDO::ERRMODE_EXCEPTION && $ex !== null) {
