@@ -147,4 +147,8 @@ class PDOCollector extends DataCollector implements Renderable
             )
         );
     }
+
+    public function __sleep() {
+        $this->connections = [];
+    }
 }
