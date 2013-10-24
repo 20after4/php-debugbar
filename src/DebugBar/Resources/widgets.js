@@ -425,13 +425,22 @@ if (typeof(PhpDebugBar) == 'undefined') {
 
 
                 }
+                var block = $('<div class="panel"></div>').appendTo(tables);
+                var bt = $('<table class="table"></table>').appendTo(block);
+                var makerow=function(label, value) {
+
+                };
+                var makespan=function(cls, content) {
+                    return '<span class="'+cls+'">'+content+'</span>';
+                };
                 $.each(stmt.backtrace, function(i, trace){
-                    var block = $('<div class="panel"></div>');
-                    var tb = $('<table class="table"></table>').appendTo(block);
-                    $.each(['class','function','args','file','line','type'], function(i,k){
-                        tb.append('<tr><th>'+k+'</th><td style="text-align:left">'+trace[k]+'</td></tr>');
-                    });
-                    block.appendTo(tables);
+                    var tr = $('<tr></tr>').appendTo(bt);
+                    $('<th></th>').html(i).appendTo(tr);
+                    $('<td></td>').append(
+                          makespan('php-class',trace['class']) + trace['type']
+                        + makespan('php-func',trace['function']) + '('+makespan('php-args',trace['args'])+')'
+                        + '<br/>' + makespan('php-file',trace['file']) + ':' + makespan('linenum',trace['line'])
+                        ).appendTo(tr);
                 });
                 li.css('cursor', 'pointer').click(function() {
                     if (tables.is(':visible')) {

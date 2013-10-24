@@ -305,6 +305,8 @@ class DebugBar implements ArrayAccess
 
         $stack = $http->getSessionValue($this->stackSessionNamespace);
         $stack[$this->getCurrentRequestId()] = $data;
+        print_r($stack);
+        exit();
         $http->setSessionValue($this->stackSessionNamespace, $stack);
         return $this;
     }

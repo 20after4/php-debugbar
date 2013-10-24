@@ -251,6 +251,34 @@ div.phpdebugbar-widgets-sqlqueries li.phpdebugbar-widgets-list-item span.phpdebu
   font-weight: bold;
 }
 
+
+div.phpdebugbar-widgets-sqlqueries span.php-file {
+    color: #000099;
+    font-style: italic;
+    font-size: 0.8em;
+}
+
+div.phpdebugbar-widgets-sqlqueries span.linenum {
+    color: #336633;
+    font-style: italic;
+    font-size: 0.8em;
+}
+
+div.phpdebugbar-widgets-sqlqueries span.php-class {
+    color: #0066aa;
+}
+
+div.phpdebugbar-widgets-sqlqueries span.php-func {
+    color: #990000;
+    font-weight:bold;
+}
+
+div.phpdebugbar-widgets-sqlqueries span.php-args {
+    color: #009900;
+}
+
+
+
 /* -------------------------------------- */
 
 div.phpdebugbar-widgets-templates div.phpdebugbar-widgets-status {

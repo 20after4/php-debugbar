@@ -212,4 +212,9 @@ class TracedStatement
     {
         return $this->backtrace;
     }
+
+    public function __sleep() {
+        return array('sql', 'rowCount', 'parameters', 'duration', 'memoryUsage');
+    }
+
 }
